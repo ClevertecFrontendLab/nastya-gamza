@@ -1,0 +1,82 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    padding: 0 16px;
+    text-align: center;
+    background: url('/img/bg-enter-light.png') center/cover no-repeat;
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(6px);
+        background: rgba(121, 156, 212, 0.5);
+        opacity: 1;
+    }
+
+    &.loading {
+        &::after {
+            opacity: 0;
+        }
+    }
+}
+
+.formContainer {
+    max-width: 540px;
+    width: 100%;
+    padding: 65px 85px;
+    position: relative;
+    z-index: 3;
+    background-color: @white;
+    :global {
+        .ant-card-body {
+            padding: 0;
+        }
+    }
+
+    @media (max-width: 575px) {
+        padding: 32px 15px;
+    }
+}
+
+.logo {
+    width: 310px;
+    height: 75px;
+    margin: 0 auto 48px;
+
+    @media (max-width: 575px) {
+        width: 203px;
+        height: 50px;
+        margin-bottom: 32px;
+    }
+}
+
+.tabs {
+    max-width: 368px;
+    margin: 0 auto;
+
+    :global {
+        .ant-tabs-nav-wrap,
+        .ant-tabs-nav-list {
+            width: 100%;
+        }
+        .ant-tabs-tab {
+            justify-content: center;
+            text-align: center;
+            width: 50%;
+            margin: 0;
+        }
+
+        .ant-tabs-tab-btn {
+            font-size: @font-md;
+        }
+    }
+}
