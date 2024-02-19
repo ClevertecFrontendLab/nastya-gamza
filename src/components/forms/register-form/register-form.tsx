@@ -8,11 +8,17 @@ import {
     isValidConfirmPassword,
 } from "@utils/validation.ts";
 import styles from './register-form.module.less';
+import {useAppDispatch, useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
+import {
+    registrationRequest,
+    RegistrationUserData
+} from "@redux/auth/registration/registration-thunk.ts";
 
 const {useBreakpoint} = Grid;
 
 export const RegisterForm = () => {
     const screens = useBreakpoint();
+    const dispatch = useAppDispatch();
     const [form] = Form.useForm();
     const [isDisabled, setIsDisabled] = useState(true);
 
@@ -23,6 +29,10 @@ export const RegisterForm = () => {
             setIsDisabled(hasErrors);
         }
     }
+    const onSubmit = (data) => {
+        dispatch(registrationRequest(data as RegistrationUserData));
+        console.log(data)
+    };
 
     return (
         <Form
@@ -32,6 +42,7 @@ export const RegisterForm = () => {
             autoComplete='off'
             className={styles.form}
             onFieldsChange={handleBtnChange}
+            onFinish={onSubmit}
         >
             <Form.Item name='email'
                        rules={[{required: true, message: ''}, {validator: isValidEmail}]}>
