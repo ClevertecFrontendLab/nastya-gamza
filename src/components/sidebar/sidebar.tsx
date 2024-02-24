@@ -8,6 +8,10 @@ import LogoMini from '@public/icons/logo-sm.svg?react';
 import LogoMobile from '@public/icons/logo-mobile.svg?react';
 import ExitIcon from '@public/icons/exit.svg?react';
 import styles from './sidebar.module.less'
+import {useAppDispatch} from "@hooks/typed-react-redux-hooks.ts";
+import {logout} from "@redux/slice/auth-slice.ts";
+import {push} from "redux-first-history";
+import {PATHS} from "@constants/paths.ts";
 
 const {Sider} = Layout;
 const { useBreakpoint } = Grid;
@@ -15,6 +19,12 @@ const { useBreakpoint } = Grid;
 export const SideBar = () => {
     const {collapsed, toggleCollapsed} = useSidebarContext();
     const screens = useBreakpoint();
+    const dispatch = useAppDispatch();
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        dispatch(logout());
+        dispatch(push(PATHS.auth))
+    };
 
     return (
         <div className={styles.wrapper} data-collapsed={collapsed}>
@@ -38,7 +48,7 @@ export const SideBar = () => {
             </Sider>
             <div>
                 <Divider className={styles.divider}/>
-                <Button className={styles.exitBtn} type='link'
+                <Button onClick={handleLogout} className={styles.exitBtn} type='link'
                         icon={screens.xs ? '' : <ExitIcon/>}>{!collapsed && 'Выход'}</Button>
             </div>
             <div className={styles.toggler}>

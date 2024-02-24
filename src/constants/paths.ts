@@ -1,0 +1,17 @@
+export enum PATHS {
+    main = '/',
+    auth = '/auth',
+    login = 'auth/login',
+    register = '/auth/registration',
+    checkEmail = '/auth/check-email',
+    recovery = '/forgot-pass',
+    result = '/result',
+    resultErrorLogin = '/result/error-login',
+    resultSuccess = '/result/success',
+    resultErrorRegister = '/result/error',
+    resultErrorUserExist = '/result/error-user-exist',
+    calendar = '/calendar',
+    workouts = 'workouts',
+    achievements = 'achievements',
+    profile = '/profile',
+}

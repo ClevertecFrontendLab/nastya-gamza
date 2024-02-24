@@ -1,36 +1,23 @@
-// import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-// import Cookies from 'js-cookie';
-
-// import { ROUTES } from '../constants/routes';
-// import { authSuccess, setAuthenticated } from '../store/auth';
-// import { authenticationSelector, authSelector } from '../store/auth/selectors';
-// import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {Outlet, useNavigate} from 'react-router-dom';
+import {useEffect} from "react";
+import {PATHS} from "@constants/paths.ts";
+import {useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
+import {authSelector} from "@redux/selectors/selectors.ts";
 
 export const ProtectedRoute = () => {
-    // const navigate = useNavigate();
-    // const dispatch = useAppDispatch();
-    // const { userData } = useAppSelector(authenticationSelector);
-    // const { isAuthenticated } = useAppSelector(authSelector);
+    const navigate = useNavigate();
+    const auth = useAppSelector(authSelector);
+    const localStorageToken = localStorage.getItem('token');
 
-    // useEffect(() => {
-    //     const token = Cookies.get('token');
-    //     const user = localStorage.getItem('user');
-    //
-    //     if (!token || !user) {
-    //         Cookies.remove('token');
-    //         localStorage.removeItem('user');
-    //         dispatch(setAuthenticated(false));
-    //         navigate(ROUTES.auth, { replace: true });
-    //     }
-    //     if (token && user && !userData) {
-    //         dispatch(authSuccess(JSON.parse(user)));
-    //     }
-    // }, [navigate, dispatch, userData]);
+    useEffect(() => {
+        if (!auth.token && !localStorageToken ) {
+            navigate(PATHS.auth, {replace: true});
+            return;
+        }
 
-    // if (!isAuthenticated) {
-    //     return null;
-    // }
+        navigate(PATHS.main, {replace: true});
 
-    return <Outlet />;
+    }, [navigate, auth.token, localStorageToken]);
+
+    return <Outlet/>;
 };

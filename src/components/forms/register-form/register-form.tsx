@@ -1,38 +1,50 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Form, Grid, Input} from 'antd';
 import {GooglePlusOutlined} from "@ant-design/icons";
-import { FieldData } from "rc-field-form/lib/interface";
+import {FieldData} from "rc-field-form/lib/interface";
 import {
     isValidEmail,
     isValidPassword,
     isValidConfirmPassword,
 } from "@utils/validation.ts";
 import styles from './register-form.module.less';
-import {useAppDispatch, useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
-import {
-    registrationRequest,
-    RegistrationUserData
-} from "@redux/auth/registration/registration-thunk.ts";
+import {useRegisterMutation} from "@redux/api/auth-api.ts";
+import {Loader} from "@components/loader/loader.tsx";
+import { RegisterRequest} from "@constants/auth.ts";
+import {useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
+import {authSelector} from "@redux/selectors/selectors.ts";
 
 const {useBreakpoint} = Grid;
 
 export const RegisterForm = () => {
     const screens = useBreakpoint();
-    const dispatch = useAppDispatch();
     const [form] = Form.useForm();
     const [isDisabled, setIsDisabled] = useState(true);
 
-    const handleBtnChange = (_changedFields: FieldData[], allFields: FieldData[]) => {
-        if(allFields.every(field => field.touched)) {
+    const [register, {isLoading}] = useRegisterMutation();
+    const auth = useAppSelector(authSelector);
+
+    const validateFields = (_changedFields: FieldData[], allFields: FieldData[]) => {
+        if (allFields.every(field => field.touched)) {
             const hasErrors = form.getFieldsError(['email', 'password', 'confirm-password'])
-                            .some(({ errors }) => errors.length);
+                .some(({errors}) => errors.length);
             setIsDisabled(hasErrors);
         }
     }
-    const onSubmit = (data) => {
-        dispatch(registrationRequest(data as RegistrationUserData));
-        console.log(data)
-    };
+
+    const onSubmit = async (data: RegisterRequest) => {
+        await register(data).unwrap();
+    }
+
+    useEffect(() => {
+        if (auth.retry) {
+            register(auth.credentials).unwrap();
+        }
+    }, []);
+
+    if (isLoading) {
+        return <Loader/>
+    }
 
     return (
         <Form
@@ -41,7 +53,7 @@ export const RegisterForm = () => {
             initialValues={{remember: true}}
             autoComplete='off'
             className={styles.form}
-            onFieldsChange={handleBtnChange}
+            onFieldsChange={validateFields}
             onFinish={onSubmit}
         >
             <Form.Item name='email'

@@ -1,40 +1,40 @@
-import {CheckCircleFilled, CloseCircleFilled, WarningFilled} from "@ant-design/icons";
-import {PATHES} from "@constants/pathes.ts";
+import {CloseCircleFilled} from "@ant-design/icons";
+import {PATHS} from "@constants/paths.ts";
 
-export const AUTH_STATUS = {
-    error: {
-        icon: <WarningFilled  style={{'color': '#faad14'}}/>,
+export const AuthResults = {
+    'error-login': {
+        status: 'warning',
         title: 'Вход не выполнен',
-        description: 'Что-то пошло не так. Попробуйте ещё раз',
+        subTitle: 'Что-то пошло не так. Попробуйте еще раз',
         buttonText: 'Повторить',
-        path: PATHES.auth,
+        redirectTo: PATHS.auth,
     },
-};
-
-export const REGISTRATION_STATUS = {
     success: {
-        icon: <CheckCircleFilled style={{color: '#52C41A'}} />,
+        status: 'success',
         title: 'Регистрация успешна',
-        description:
-            'Регистрация прошла успешно. Зайдите в приложение, используя свои e-mail и пароль',
+        subTitle: 'Регистрация прошла успешно. Зайдите в приложение, используя свои e-mail и пароль',
         buttonText: 'Войти',
-        path: PATHES.auth,
+        redirectTo: PATHS.auth,
     },
-    error: {
-        icon: <CloseCircleFilled  style={{'color': '#ff4d4f'}}/>,
+    'error': {
+        status: 'error',
         title: 'Данные не сохранились',
-        description: 'Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз',
-        alreadyUsedDescription:
-            'Такой e-mail уже записан в системе. Попробуйте зарегистрироваться по другому e-mail',
+        subTitle: 'Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз',
         buttonText: 'Повторить',
-        alreadyUsedButtonText: 'Назад к регистрации',
-        path: PATHES.registration,
+        redirectTo: PATHS.register,
+    },
+    'error-user-exist': {
+        status: 'error',
+        title: 'Данные не сохранились',
+        subTitle: 'Такой e-mail уже записан в системе. Попробуйте зарегистрироваться по другому e-mail',
+        buttonText: 'Назад к регистрации',
+        redirectTo: PATHS.register,
     },
 };
 
 export const SEND_CODE_STATUS = {
     error: {
-        icon: <CloseCircleFilled  style={{'color': '#ff4d4f'}}/>,
+        icon: <CloseCircleFilled style={{'color': '#ff4d4f'}}/>,
         title: 'Что-то пошло не так',
         notExistTitle: 'Такой e-mail не зарегестрирован',
         description: 'Произошла ошибка, попробуйте отправить форму ещё раз',

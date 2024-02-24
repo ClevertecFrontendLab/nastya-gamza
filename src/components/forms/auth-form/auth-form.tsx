@@ -1,20 +1,44 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
 import {Button, Checkbox, Form, Grid, Input} from 'antd';
 import {GooglePlusOutlined} from "@ant-design/icons";
 import {isValidEmail, isValidPassword} from "@utils/validation.ts";
 import styles from './auth-form.module.less';
+import {useLoginMutation} from "@redux/api/auth-api.ts";
+import {push} from "redux-first-history";
+import {PATHS} from "@constants/paths.ts";
+import {useDispatch} from "react-redux";
+import {Loader} from "@components/loader/loader.tsx";
+import {LoginRequest} from "@constants/auth.ts";
 
 const {useBreakpoint} = Grid;
 
 export const AuthForm = () => {
     const screens = useBreakpoint();
     const [form] = Form.useForm();
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    const dispatch = useDispatch();
 
-    const handleBtnChange = () => {
-        const hasErrors = form.getFieldsError(['email']).some(({ errors }) => errors.length);
-        setIsDisabled(hasErrors);
+    const [login, {isLoading}] = useLoginMutation();
+
+    const onSubmit = async (data: LoginRequest) => {
+        await login(data).unwrap();
+        dispatch(push(PATHS.main));
+    }
+
+    const validateEmail = () => {
+        const isValid = form.isFieldTouched('email') && form.getFieldError('email').length === 0;
+        setIsEmailValid(isValid);
+        return isValid;
+    }
+
+    const handleResetPassword = () => {
+        if (validateEmail()) {
+            console.log('yeees')
+        }
+    }
+
+    if (isLoading) {
+        return <Loader/>
     }
 
     return (
@@ -24,22 +48,27 @@ export const AuthForm = () => {
             initialValues={{remember: true}}
             autoComplete='on'
             className={styles.form}
-            onFieldsChange={handleBtnChange}
+            onFinish={onSubmit}
+            onFieldsChange={(changedFields) => {
+                const emailField = changedFields.find((field) => field.name.includes('email'));
+                if (emailField) validateEmail();
+            }}
         >
-            <Form.Item name='email' rules={[{required: true, message: ''}, { validator: isValidEmail }]}>
-                <Input addonBefore='e-mail:' className={styles.email} />
+            <Form.Item name='email'
+                       rules={[{required: true, message: ''}, {validator: isValidEmail}]}
+                       validateStatus={isEmailValid ? 'success' : 'error'}>
+                <Input addonBefore='e-mail:' className={styles.email}/>
             </Form.Item>
-            <Form.Item name='password' rules={[{required: true, message: ''}, { validator: isValidPassword }]}>
+            <Form.Item name='password'
+                       rules={[{required: true, message: ''}, {validator: isValidPassword}]}>
                 <Input.Password placeholder='Пароль'/>
             </Form.Item>
             <div className={styles.row}>
                 <Form.Item name="remember" valuePropName="checked">
                     <Checkbox>Запомнить меня</Checkbox>
                 </Form.Item>
-                <Form.Item name="restore" className={styles.link}>
-                    <Link to="/">
-                        <Button disabled={isDisabled} type="link" >Забыли пароль?</Button>
-                    </Link>
+                <Form.Item className={styles.link}>
+                    <Button disabled={!isEmailValid} onClick={handleResetPassword} type="link">Забыли пароль?</Button>
                 </Form.Item>
             </div>
             <Form.Item style={{marginBottom: '16px'}}>

@@ -1,7 +1,8 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import { createReduxHistoryContext } from "redux-first-history";
 import { createBrowserHistory } from 'history';
-import {registrationReducer} from "@redux/auth/registration/registration-slice.ts";
+import {authApi} from "@redux/api/auth-api.ts";
+import authReducer from './slice/auth-slice.ts';
 
 const {
     createReduxHistory,
@@ -11,10 +12,11 @@ const {
 
 export const store = configureStore({
     reducer: combineReducers({
-        registration: registrationReducer,
+        [authApi.reducerPath]: authApi.reducer,
+        auth: authReducer,
         router: routerReducer,
     }),
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware, authApi.middleware),
 });
 
 export const history = createReduxHistory(store);

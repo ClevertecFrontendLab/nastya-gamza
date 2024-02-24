@@ -1,22 +1,25 @@
-import {ReactNode} from "react";
-import {ResultCard} from "@components/card";
 import styles from './result-page.module.less'
+import {Button, Card, Result} from "antd";
+import {useNavigate, useParams} from "react-router-dom";
+import {AuthResults} from "@constants/auth-statuses.tsx";
 
-interface ResultPageProps {
-    icon: ReactNode,
-    title: string,
-    description: string,
-    btnText: string,
-    path: string,
+export const ResultPage = () => {
+    const {type} = useParams();
+    const navigate = useNavigate();
+    const {status, title, subTitle, buttonText, redirectTo} = AuthResults[type];
+
+    const handleClick = () => {
+        navigate(redirectTo);
+    }
+
+    return (
+        <Card className={styles.card}>
+            <Result status={status} title={title} subTitle={subTitle}
+                    extra={[
+                        <Button onClick={handleClick} size={"large"} block type="primary">
+                            {buttonText}
+                        </Button>,
+                    ]}/>
+        </Card>
+    );
 }
-
-export const ResultPage = ({icon, title, description, btnText, path}: ResultPageProps) => (
-    <div className={styles.wrapper}>
-        <ResultCard
-            icon={icon}
-            title={title}
-            description={description}
-            btnText={btnText}
-            path={path}/>
-    </div>
-);
