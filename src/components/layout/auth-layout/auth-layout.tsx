@@ -1,4 +1,4 @@
-import {Outlet, useLocation, useNavigate} from 'react-router-dom';
+import {Outlet, useNavigate} from 'react-router-dom';
 import {Layout} from 'antd';
 import styles from './auth-layout.module.less'
 import {useEffect} from "react";
@@ -8,18 +8,13 @@ import {authSelector} from "@redux/selectors/selectors.ts";
 
 export const AuthLayout = () => {
     const navigate = useNavigate();
-    const auth = useAppSelector(authSelector);
-    const location = useLocation();
+    const {token} = useAppSelector(authSelector);
 
     useEffect(() => {
-        if (auth.token) {
+        if (token) {
             navigate(PATHS.main, {replace: true});
-
-            if (location.pathname.includes(PATHS.result)) {
-                navigate(PATHS.main, {replace: true});
-            }
         }
-    }, [navigate, auth.token]);
+    }, [navigate, token]);
 
     return (
         <Layout className={styles.layout}>

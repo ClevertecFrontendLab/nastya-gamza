@@ -4,11 +4,15 @@ export interface LoginResponse {
 export interface LoginRequest {
     email: string;
     password: string;
-    remember: boolean;
 }
 
 export interface RegisterRequest {
     email: string;
     password: string;
     'confirm-password': string;
+}
+
+export interface ChangePassword {
+    password: string;
+    confirmPassword: string;
 }

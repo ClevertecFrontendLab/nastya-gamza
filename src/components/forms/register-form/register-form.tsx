@@ -11,8 +11,11 @@ import styles from './register-form.module.less';
 import {useRegisterMutation} from "@redux/api/auth-api.ts";
 import {Loader} from "@components/loader/loader.tsx";
 import { RegisterRequest} from "@constants/auth.ts";
-import {useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
+import {useAppDispatch, useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
 import {authSelector} from "@redux/selectors/selectors.ts";
+import {PATHS} from "@constants/paths.ts";
+import {setCredentials} from "@redux/slice/auth-slice.ts";
+import {useNavigate} from "react-router-dom";
 
 const {useBreakpoint} = Grid;
 
@@ -20,6 +23,8 @@ export const RegisterForm = () => {
     const screens = useBreakpoint();
     const [form] = Form.useForm();
     const [isDisabled, setIsDisabled] = useState(true);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const [register, {isLoading}] = useRegisterMutation();
     const auth = useAppSelector(authSelector);
@@ -33,12 +38,29 @@ export const RegisterForm = () => {
     }
 
     const onSubmit = async (data: RegisterRequest) => {
-        await register(data).unwrap();
+        try {
+            await register(data).unwrap();
+            navigate(PATHS.resultSuccess, { state: { from: 'redirect' } });
+            dispatch(setCredentials({credentials: data, retry: false}));
+        } catch (e) {
+            if (e.status === 409) {
+                navigate(PATHS.resultErrorUserExist, { state: { from: 'redirect' } });
+                return;
+            }
+            navigate(PATHS.resultErrorRegister, { state: { from: 'redirect' } });
+            dispatch(setCredentials({credentials: data, retry: true}));
+        }
     }
 
     useEffect(() => {
         if (auth.retry) {
-            register(auth.credentials).unwrap();
+            register(auth.credentials).unwrap().catch(e => {
+                if (e.status === 409) {
+                    navigate(PATHS.resultErrorUserExist, { state: { from: 'redirect' } });
+                    return;
+                }
+                navigate(PATHS.resultErrorRegister, { state: { from: 'redirect' } });
+            });
         }
     }, []);
 
@@ -58,7 +80,7 @@ export const RegisterForm = () => {
         >
             <Form.Item name='email'
                        rules={[{required: true, message: ''}, {validator: isValidEmail}]}>
-                <Input addonBefore={'e-mail:'} style={{width: '100%'}}/>
+                <Input data-test-id='registration-email' addonBefore={'e-mail:'} style={{width: '100%'}}/>
             </Form.Item>
             <Form.Item
                 name='password'
@@ -66,7 +88,7 @@ export const RegisterForm = () => {
                 rules={[{required: true, message: ''}, {validator: isValidPassword}]}
                 help="Пароль не менее 8 символов, с заглавной буквой и цифрой"
             >
-                <Input.Password placeholder={'Пароль'}/>
+                <Input.Password data-test-id='registration-password' placeholder={'Пароль'}/>
             </Form.Item>
             <Form.Item
                 name='confirm-password'
@@ -79,10 +101,10 @@ export const RegisterForm = () => {
                     isValidConfirmPassword
                 ]}
             >
-                <Input.Password placeholder={'Повторите пароль'}/>
+                <Input.Password data-test-id='registration-confirm-password' placeholder={'Повторите пароль'}/>
             </Form.Item>
             <div className={styles.btnWrapper}>
-                <Button disabled={isDisabled} type={'primary'} className={styles.btn}
+                <Button data-test-id='registration-submit-button' disabled={isDisabled} type={'primary'} className={styles.btn}
                         htmlType="submit">Войти</Button>
                 <Button className={styles.btn}>
                     {screens.xs ? '' : <GooglePlusOutlined/>} Регистрация через Google

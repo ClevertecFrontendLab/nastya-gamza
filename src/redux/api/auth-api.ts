@@ -1,10 +1,8 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {push} from "redux-first-history";
 import {RootState} from "@redux/store.ts";
-import {setCredentials, setToken} from "@redux/slice/auth-slice.ts";
 import {PATHS} from "@constants/paths.ts";
 import {BASE_API_URL} from "@constants/api.ts";
-import {LoginRequest, LoginResponse, RegisterRequest} from "@constants/auth.ts";
+import {ChangePassword, LoginRequest, LoginResponse, RegisterRequest} from "@constants/auth.ts";
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -26,17 +24,6 @@ export const authApi = createApi({
                 method: 'POST',
                 body: credentials,
             }),
-            async onQueryStarted(arg, {dispatch, queryFulfilled}) {
-                try {
-                    const {data} = await queryFulfilled;
-                    if (arg.remember) {
-                        localStorage.setItem('token', data.accessToken);
-                    }
-                    dispatch(setToken({token: data.accessToken}));
-                } catch (e) {
-                    dispatch(push(PATHS.resultErrorLogin));
-                }
-            }
         }),
         register: builder.mutation<void, RegisterRequest>({
             query: (credentials) => ({
@@ -44,22 +31,8 @@ export const authApi = createApi({
                 method: 'POST',
                 body: credentials,
             }),
-            async onQueryStarted(arg, {dispatch, queryFulfilled}) {
-                try {
-                    await queryFulfilled;
-                    dispatch(push(PATHS.resultSuccess));
-                    dispatch(setCredentials({credentials: arg, retry: false}));
-                } catch (e) {
-                    if (e.error.status === 409) {
-                        dispatch(push(PATHS.resultErrorUserExist));
-                        return;
-                    }
-                    dispatch(push(PATHS.resultErrorRegister));
-                    dispatch(setCredentials({credentials: arg, retry: true}));
-                }
-            }
         }),
-        checkEmail: builder.mutation<{ email: string; message: string }, LoginRequest['email']>({
+        checkEmail: builder.mutation<{ email: string; message: string }, { email: string }>({
             query: (email) => ({
                 url: PATHS.checkEmail,
                 method: 'POST',
@@ -68,7 +41,14 @@ export const authApi = createApi({
         }),
         confirmEmail: builder.mutation<void, { email: string; code: string }>({
             query: (arg) => ({
-                url: '/confirm-email',
+                url: PATHS.confirmEmail,
+                method: 'POST',
+                body: arg,
+            }),
+        }),
+        changePassword: builder.mutation<{ message: string }, ChangePassword>({
+            query: (arg) => ({
+                url: PATHS.changePassword,
                 method: 'POST',
                 body: arg,
             }),
@@ -81,4 +61,5 @@ export const {
     useLoginMutation,
     useCheckEmailMutation,
     useConfirmEmailMutation,
+    useChangePasswordMutation,
 } = authApi;
