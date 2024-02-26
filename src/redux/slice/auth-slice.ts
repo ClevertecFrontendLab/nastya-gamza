@@ -1,9 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {ChangePasswordRequest, RegisterRequest} from "@constants/auth.ts";
+import {ChangePasswordRequest, RegisterRequest} from '@constants/auth.ts';
 
 interface AuthState {
     credentials: RegisterRequest;
-    retry: boolean;
+    retryRegister: boolean;
     retryEmail: boolean;
     retryPassword: boolean;
     token: string | null;
@@ -13,8 +13,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    credentials: {email: '', password: '', "confirm-password": ''},
-    retry: false,
+    credentials: {email: '', password: '', confirmPassword: ''},
+    retryRegister: false,
     retryEmail: false,
     retryPassword: false,
     token: null,
@@ -27,9 +27,9 @@ const slice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setCredentials: (state, action: PayloadAction<{credentials: RegisterRequest, retry: boolean}>) => {
+        setCredentials: (state, action: PayloadAction<{credentials: RegisterRequest, retryRegister: boolean}>) => {
             state.credentials = action.payload.credentials;
-            state.retry = action.payload.retry;
+            state.retryRegister = action.payload.retryRegister;
         },
         setToken: (state, action: PayloadAction<{token: string}>) => {
             state.token = action.payload.token;

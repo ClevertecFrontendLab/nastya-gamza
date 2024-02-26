@@ -1,14 +1,14 @@
-import {Card, Result} from 'antd';
-import {useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useRef, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {Card, Result} from 'antd';
+import VerificationInput from 'react-verification-input';
 import clsn from 'classnames';
+import {useConfirmEmailMutation} from '@redux/api/auth-api.ts';
+import {authSelector} from '@redux/selectors/selectors.ts';
+import {useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
+import {Loader} from '@components/loader';
 import {PATHS} from '@constants/paths.ts';
 import styles from './confirm-email.module.less'
-import VerificationInput from 'react-verification-input';
-import {useConfirmEmailMutation} from '@redux/api/auth-api.ts';
-import {useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
-import {authSelector} from '@redux/selectors/selectors.ts';
-import {Loader} from '@components/loader/loader.tsx';
 
 export const ConfirmEmail = () => {
     const navigate = useNavigate();

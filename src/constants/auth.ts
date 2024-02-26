@@ -9,7 +9,7 @@ export interface LoginRequest {
 export interface RegisterRequest {
     email: string;
     password: string;
-    'confirm-password': string;
+    confirmPassword: string;
 }
 
 export interface ChangePasswordRequest {

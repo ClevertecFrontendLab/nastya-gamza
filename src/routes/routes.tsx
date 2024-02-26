@@ -1,12 +1,11 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
+import {AuthLayout, MainLayout} from '@components/layout';
+import {ProtectedRoute} from './protected-route.tsx';
 import {MainPage} from '@pages/main-page';
 import {AuthPage} from '@pages/auth-page';
-import {ResultPage} from '@pages/result-page/result-page.tsx';
-import {PageLayout} from '@components/layout';
-import {AuthLayout} from '@components/layout/auth-layout/auth-layout.tsx';
-import {ProtectedRoute} from './protected-route.tsx';
-import {ConfirmEmail} from "@pages/confirm-email/confirm-email.tsx";
-import {ChangePassword} from "@pages/change-password/change-password.tsx";
+import {ResultPage} from '@pages/result-page';
+import {ConfirmEmail} from "@pages/confirm-email";
+import {ChangePassword} from "@pages/change-password";
 import {PATHS} from '@constants/paths.ts';
 
 export const routes = (
@@ -23,7 +22,7 @@ export const routes = (
         </Route>
 
         <Route element={<ProtectedRoute/>}>
-            <Route path={PATHS.main} element={<PageLayout/>}>
+            <Route path={PATHS.main} element={<MainLayout/>}>
                 <Route index element={<MainPage/>}/>
             </Route>
         </Route>

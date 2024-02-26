@@ -1,8 +1,8 @@
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 import {Card, Tabs} from 'antd';
-import {AuthForm} from "@components/forms/auth-form/auth-form.tsx";
-import {RegisterForm} from "@components/forms/register-form/register-form.tsx";
-import {PATHS} from "@constants/paths.ts";
+import {AuthForm} from '@components/forms/auth-form/auth-form.tsx';
+import {RegisterForm} from '@components/forms/register-form/register-form.tsx';
+import {PATHS} from '@constants/paths.ts';
 import Logo from '@public/icons/logo.svg?react';
 import styles from './auth-page.module.less';
 

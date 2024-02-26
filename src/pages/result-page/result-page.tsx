@@ -1,9 +1,9 @@
+import {useEffect} from 'react';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Button, Card, Result} from 'antd';
+import {AuthResults} from '@constants/auth-statuses.ts';
+import {PATHS} from '@constants/paths.ts';
 import styles from './result-page.module.less'
-import {Button, Card, Result} from "antd";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {AuthResults} from "@constants/auth-statuses.ts";
-import {useEffect} from "react";
-import {PATHS} from "@constants/paths.ts";
 
 export const ResultPage = () => {
     const {type} = useParams();
@@ -32,8 +32,8 @@ export const ResultPage = () => {
         <Card className={styles.card}>
             <Result status={status} title={title} subTitle={subTitle}
                     extra={[
-                        <Button onClick={handleClick} data-test-id={buttonTestId} size={"large"}
-                                block type="primary">
+                        <Button onClick={handleClick} data-test-id={buttonTestId} size={'large'}
+                                block={status !== 500} type='primary'>
                             {buttonText}
                         </Button>,
                     ]}/>
