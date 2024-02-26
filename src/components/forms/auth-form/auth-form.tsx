@@ -60,7 +60,7 @@ export const AuthForm = () => {
                 dispatch(setEmail({email: form.getFieldValue('email'), retryEmail: false}));
                 navigate(PATHS.confirmEmail, { state: { from: 'redirect' } });
             } catch (e) {
-                if (e.status === 404) {
+                if (e.data?.message === 'Email не найден') {
                     navigate(PATHS.resultErrorNoEmailExist, { state: { from: 'redirect' } });
                     return;
                 } else {
@@ -72,14 +72,24 @@ export const AuthForm = () => {
     }
 
     useEffect(() => {
-        if (auth.retryEmail) {
-            checkEmail({email: auth.email}).unwrap().catch(e => {
-                if (e.status === 404) {
+        const f = async () => {
+            try {
+                await checkEmail(form.getFieldValue('email')).unwrap();
+                dispatch(setEmail({email: form.getFieldValue('email'), retryEmail: false}));
+                navigate(PATHS.confirmEmail, { state: { from: 'redirect' } });
+            } catch (e) {
+                if (e.data?.message === 'Email не найден') {
                     navigate(PATHS.resultErrorNoEmailExist, { state: { from: 'redirect' } });
                     return;
+                } else {
+                    navigate(PATHS.resultErrorCheckEmail, { state: { from: 'redirect' } });
+                    dispatch(setEmail({email: form.getFieldValue('email'), retryEmail: true}));
                 }
-                navigate(PATHS.resultErrorCheckEmail, { state: { from: 'redirect' } });
-            });
+            }
+        }
+
+        if (auth.retryEmail) {
+            f()
         }
     }, []);
 

@@ -55,7 +55,7 @@ export const AuthResults = {
         subTitle: 'Что-то пошло не так. Попробуйте ещё раз',
         buttonText: 'Повторить',
         buttonTestId: 'change-retry-button',
-        redirectTo: PATHS.auth,
+        redirectTo: PATHS.changePassword,
     },
     'success-change-password': {
         status: 'success',

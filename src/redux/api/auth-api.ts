@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {RootState} from "@redux/store.ts";
 import {PATHS} from "@constants/paths.ts";
 import {BASE_API_URL} from "@constants/api.ts";
-import {ChangePassword, LoginRequest, LoginResponse, RegisterRequest} from "@constants/auth.ts";
+import {ChangePasswordRequest, LoginRequest, LoginResponse, RegisterRequest} from "@constants/auth.ts";
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -46,7 +46,7 @@ export const authApi = createApi({
                 body: arg,
             }),
         }),
-        changePassword: builder.mutation<{ message: string }, ChangePassword>({
+        changePassword: builder.mutation<{ message: string }, ChangePasswordRequest>({
             query: (arg) => ({
                 url: PATHS.changePassword,
                 method: 'POST',

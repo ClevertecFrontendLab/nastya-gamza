@@ -15,8 +15,10 @@ export enum PATHS {
     resultErrorUserExist = '/result/error-user-exist',
     resultErrorNoEmailExist = '/result/error-check-email-no-exist',
     resultErrorCheckEmail  = '/result/error-check-email',
+    resultSuccessChangePassword = '/result/success-change-password',
+    resultErrorChangePassword = '/result/error-change-password',
     calendar = '/calendar',
-    workouts = 'workouts',
-    achievements = 'achievements',
+    workouts = '/workouts',
+    achievements = '/achievements',
     profile = '/profile',
 }

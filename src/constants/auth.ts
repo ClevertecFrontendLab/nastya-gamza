@@ -12,7 +12,7 @@ export interface RegisterRequest {
     'confirm-password': string;
 }
 
-export interface ChangePassword {
+export interface ChangePasswordRequest {
     password: string;
     confirmPassword: string;
 }

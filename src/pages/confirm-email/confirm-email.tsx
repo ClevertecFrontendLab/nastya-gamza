@@ -1,28 +1,31 @@
-import {Card, Result} from "antd";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
-import {PATHS} from "@constants/paths.ts";
+import {Card, Result} from 'antd';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {useEffect, useRef, useState} from 'react';
+import clsn from 'classnames';
+import {PATHS} from '@constants/paths.ts';
 import styles from './confirm-email.module.less'
-import VerificationInput from "react-verification-input";
-import {useConfirmEmailMutation} from "@redux/api/auth-api.ts";
-import {useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
-import {authSelector} from "@redux/selectors/selectors.ts";
+import VerificationInput from 'react-verification-input';
+import {useConfirmEmailMutation} from '@redux/api/auth-api.ts';
+import {useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
+import {authSelector} from '@redux/selectors/selectors.ts';
+import {Loader} from '@components/loader/loader.tsx';
 
 export const ConfirmEmail = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [confirmEmail, {isError}] = useConfirmEmailMutation();
+    const [confirmEmail, {isLoading, isError}] = useConfirmEmailMutation();
     const [code, setCode] = useState('');
     const errorRef = useRef(isError);
     const {email} = useAppSelector(authSelector);
 
     const handleComplete = async (code: string) => {
-        setCode('');
         try {
             await confirmEmail({email, code}).unwrap();
-            navigate(PATHS.changePassword, { state: { from: 'redirect' } })
+            navigate(PATHS.changePassword, {state: {from: 'redirect'}});
         } catch (e) {
             errorRef.current = true;
+        } finally {
+            setCode('');
         }
     };
 
@@ -39,6 +42,8 @@ export const ConfirmEmail = () => {
         }
     }, []);
 
+    if (isLoading) return <Loader/>;
+
     return (
         <Card className={styles.card}>
             <Result className={styles.result}
@@ -46,7 +51,7 @@ export const ConfirmEmail = () => {
                     title={
                         <div>
                             {errorRef.current ? 'Неверный код. ' : ''}
-                            Введите код<br/>для восстановления аккаунта
+                            Введите код <br/> для восстановления аккаунта
                         </div>
                     }
                     subTitle={
@@ -66,11 +71,14 @@ export const ConfirmEmail = () => {
                 inputProps={{'data-test-id': 'verification-input'}}
                 classNames={{
                     container: styles.wrapper,
-                    character: styles.input,
+                    character: clsn(
+                        'ant-input',
+                        errorRef.current && 'ant-input-status-error',
+                        styles.input,
+                    ),
                 }}
             />
             <p className={styles.note}>Не пришло письмо? Проверьте папку Спам.</p>
-
         </Card>
     );
 };
