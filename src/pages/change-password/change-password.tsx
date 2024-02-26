@@ -18,9 +18,9 @@ export const ChangePassword = () => {
     const {retryPassword, password} = useAppSelector(authSelector);
     const dispatch = useAppDispatch();
 
-    const onSubmit = (data: ChangePasswordRequest) => {
+    const onSubmit = async (data: ChangePasswordRequest) => {
         try {
-            changePassword(data).unwrap();
+            await changePassword(data).unwrap();
             navigate(PATHS.resultSuccessChangePassword, { state: { from: 'redirect' } });
             dispatch(setPassword({password: data, retryPassword: false}));
         } catch (e) {
@@ -30,12 +30,19 @@ export const ChangePassword = () => {
     }
 
     useEffect(() => {
-        console.log(retryPassword)
-        if (retryPassword) {
-            changePassword(password).unwrap().catch(e => {
-                console.log(e)
+        const f = async() => {
+            try {
+                await changePassword(password).unwrap();
+                navigate(PATHS.resultSuccessChangePassword, { state: { from: 'redirect' } });
+                dispatch(setPassword({password, retryPassword: false}));
+            } catch (e) {
                 navigate(PATHS.resultErrorChangePassword, { state: { from: 'redirect' } });
-            });
+                dispatch(setPassword({password, retryPassword: true}));
+            }
+        }
+
+        if (retryPassword) {
+            f()
         }
     }, []);
 
