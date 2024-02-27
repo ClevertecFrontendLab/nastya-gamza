@@ -5,7 +5,7 @@ import {PATHS} from "@constants/paths.ts";
 export const NotFoundPage = () => {
     const navigate = useNavigate();
 
-    const handleGoMain = () => {
+    const handleNavigateMain = () => {
         navigate(PATHS.main)
     }
 
@@ -15,7 +15,7 @@ export const NotFoundPage = () => {
             title='404'
             subTitle='Sorry, the page you visited does not exist.'
             extra={
-                <Button type='primary' onClick={handleGoMain}>
+                <Button type='primary' onClick={handleNavigateMain}>
                     Вернуться на главную страницу
                 </Button>}
         />

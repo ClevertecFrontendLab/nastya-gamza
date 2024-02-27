@@ -1,1 +1,1 @@
-export {ConfirmEmailPage} from './confirm-email-page.tsx';
+export {ConfirmEmailPage} from './confirm-email-page';
