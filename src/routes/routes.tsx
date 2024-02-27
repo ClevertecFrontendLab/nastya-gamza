@@ -6,6 +6,7 @@ import {AuthPage} from '@pages/auth-page';
 import {ResultPage} from '@pages/result-page';
 import {ConfirmEmail} from "@pages/confirm-email";
 import {ChangePassword} from "@pages/change-password";
+import {NotFoundPage} from "@pages/not-found-page";
 import {RedirectRoute} from "./redirect-route.tsx";
 import {PublicRoute} from "./public-route.tsx";
 import {PATHS} from '@constants/paths.ts';
@@ -32,5 +33,7 @@ export const routes = (
                 <Route index element={<MainPage/>}/>
             </Route>
         </Route>
+
+        <Route path='*' element={<NotFoundPage/>}/>
     </Routes>
 )
