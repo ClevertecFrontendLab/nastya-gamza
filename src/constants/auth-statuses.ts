@@ -24,7 +24,7 @@ export const AuthResults: Record<ResultStatuses, AuthResultsTypes> = {
     success: {
         status: 'success',
         title: 'Регистрация успешна',
-        subTitle: 'Регистрация прошла успешно. Зайдите в приложение, используя свои e-mail и пароль',
+        subTitle: 'Регистрация прошла успешно. Зайдите в\u00A0приложение, используя свои e-mail и пароль',
         buttonText: 'Войти',
         buttonTestId: 'registration-enter-button',
         redirectTo: PATHS.auth,
@@ -80,7 +80,7 @@ export const AuthResults: Record<ResultStatuses, AuthResultsTypes> = {
     'success-change-password': {
         status: 'success',
         title: 'Пароль успешно изменен',
-        subTitle: 'Теперь можно войти в аккаунт, используя свой логин и новый пароль',
+        subTitle: 'Теперь можно войти в аккаунт, используя свой\u00A0логин и новый пароль',
         buttonText: 'Вход',
         buttonTestId: 'change-entry-button',
         redirectTo: PATHS.auth,

@@ -22,9 +22,8 @@ export const ConfirmEmailPage = () => {
                         }
                         subTitle={
                             <div>
-                                Мы отправили вам на e-mail <span
-                                className={styles.email}>{email}</span> шестизначный код. Введите
-                                его в поле ниже.
+                                Мы отправили вам на e-mail <span className={styles.email}>{email}</span>
+                                <br/> шестизначный код. Введите его в поле ниже.
                             </div>
                         }
                 />

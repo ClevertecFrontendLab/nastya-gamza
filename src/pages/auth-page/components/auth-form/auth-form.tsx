@@ -31,7 +31,7 @@ export const AuthForm = () => {
 
     return (
         <>
-            {isCheckEmailLoading || isLoginLoading && <Loader/>}
+            {(isCheckEmailLoading || isLoginLoading) && <Loader/>}
             <Form
                 name='auth'
                 form={form}

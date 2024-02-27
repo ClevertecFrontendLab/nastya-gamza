@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import {Button, Card, Result} from 'antd';
 import {AuthResults, ResultStatuses} from '@constants/auth-statuses.ts';
-import styles from './result-page.module.less'
+import styles from './result-page.module.less';
 
 export const ResultPage = () => {
     const {type} = useParams() as { type: ResultStatuses };
@@ -12,8 +12,10 @@ export const ResultPage = () => {
         navigate(redirectTo);
     }
 
+    const resultCard = status === 500 ? styles.fail : styles.default;
+
     return (
-        <Card className={styles.card}>
+        <Card className={resultCard}>
             <Result status={status} title={title} subTitle={subTitle}
                     extra={[
                         <Button onClick={handleClick} data-test-id={buttonTestId} size={'large'}
