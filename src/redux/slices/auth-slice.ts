@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {ChangePasswordRequest, RegisterRequest} from '@constants/auth.ts';
+import {ChangePasswordRequest, RegisterRequest} from '@redux/types/auth.ts';
 
-interface AuthState {
+type AuthState = {
     credentials: RegisterRequest;
     retryRegister: boolean;
     retryEmail: boolean;

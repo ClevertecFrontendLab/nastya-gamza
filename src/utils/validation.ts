@@ -1,4 +1,4 @@
-import {REGEX} from "@constants/regex.ts";
+import {REGEX} from '@constants/regex.ts';
 export const isValidEmail = (_rule: unknown, value: string) => {
     if (value && REGEX.email.test(value)) {
         return Promise.resolve()

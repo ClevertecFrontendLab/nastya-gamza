@@ -1,11 +1,10 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {Button, Form, Grid, Input} from 'antd';
-import {FieldData} from 'rc-field-form/lib/interface';
 import {useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
 import {authSelector} from '@redux/selectors/selectors.ts';
+import {useRegister, useRegisterFieldsValidation} from '@pages/auth-page/hooks';
 import {Loader} from '@components/loader';
 import {isValidConfirmPassword, isValidEmail, isValidPassword,} from '@utils/validation.ts';
-import {useRegister} from "@pages/auth-page/hooks/use-register.ts";
 import {GooglePlusOutlined} from '@ant-design/icons';
 import styles from './register-form.module.less';
 
@@ -14,17 +13,9 @@ const {useBreakpoint} = Grid;
 export const RegisterForm = () => {
     const screens = useBreakpoint();
     const [form] = Form.useForm();
-    const [isDisabled, setIsDisabled] = useState(true);
     const {retryRegister, credentials} = useAppSelector(authSelector);
     const {onSubmit, isLoading} = useRegister();
-
-    const validateFields = (_changedFields: FieldData[], allFields: FieldData[]) => {
-        if (allFields.every(field => field.touched)) {
-            const hasErrors = form.getFieldsError(['email', 'password', 'confirm-password'])
-                .some(({errors}) => errors.length);
-            setIsDisabled(hasErrors);
-        }
-    }
+    const {isDisabled, validateFields} = useRegisterFieldsValidation(form);
 
     useEffect(() => {
         if (retryRegister) {

@@ -1,33 +1,21 @@
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {Button, Checkbox, Form, Grid, Input} from 'antd';
 import {isValidEmail, isValidPassword} from '@utils/validation.ts';
 import {authSelector} from '@redux/selectors/selectors.ts';
 import {useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
+import {useAuth, useEmailValidation} from '@pages/auth-page/hooks';
 import {Loader} from '@components/loader';
 import {GooglePlusOutlined} from '@ant-design/icons';
-import {useAuth} from "@pages/auth-page/hooks/use-auth.ts";
 import styles from './auth-form.module.less';
 
 const {useBreakpoint} = Grid;
 
-export interface FormFields {
-    email: string;
-    password: string;
-    remember: boolean;
-}
-
 export const AuthForm = () => {
     const screens = useBreakpoint();
     const [form] = Form.useForm();
-    const [isEmailValid, setIsEmailValid] = useState(true);
     const {retryEmail} = useAppSelector(authSelector);
     const {onSubmit, retry, isLoginLoading, isCheckEmailLoading} = useAuth();
-
-    const validateEmail = () => {
-        const isValid = form.isFieldTouched('email') && form.getFieldError('email').length === 0;
-        setIsEmailValid(isValid);
-        return isValid;
-    }
+    const {isEmailValid, validateEmail} = useEmailValidation(form);
 
     const handleChangePassword = async () => {
         if (validateEmail()) {

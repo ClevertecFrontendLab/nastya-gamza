@@ -1,8 +1,8 @@
 import {useNavigate} from 'react-router-dom';
 import {useChangePasswordMutation} from '@redux/api/auth-api.ts';
-import {setPassword} from '@redux/slice/auth-slice.ts';
+import {setPassword} from '@redux/slices/auth-slice.ts';
 import {useAppDispatch} from '@hooks/typed-react-redux-hooks.ts';
-import {ChangePasswordRequest} from '@constants/auth.ts';
+import {ChangePasswordRequest} from '@redux/types/auth.ts';
 import {PATHS} from '@constants/paths.ts';
 
 export const useChangePassword = () => {

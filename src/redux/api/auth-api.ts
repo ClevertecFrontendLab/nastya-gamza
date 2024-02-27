@@ -1,8 +1,14 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {RootState} from "@redux/store.ts";
-import {PATHS} from "@constants/paths.ts";
-import {BASE_API_URL} from "@constants/api.ts";
-import {ChangePasswordRequest, LoginRequest, LoginResponse, RegisterRequest} from "@constants/auth.ts";
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {RootState} from '@redux/store.ts';
+import {PATHS} from '@constants/paths.ts';
+import {BASE_API_URL} from '@constants/api.ts';
+import {
+    ChangePasswordRequest, ChangePasswordResponse,
+    CheckEmailRequest, CheckEmailResponse, ConfirmEmailRequest, ConfirmEmailResponse,
+    LoginRequest,
+    LoginResponse,
+    RegisterRequest
+} from '@redux/types/auth.ts';
 
 export const authApi = createApi({
     reducerPath: 'authApi',
@@ -32,21 +38,21 @@ export const authApi = createApi({
                 body: credentials,
             }),
         }),
-        checkEmail: builder.mutation<{ email: string; message: string }, { email: string }>({
+        checkEmail: builder.mutation<CheckEmailResponse, CheckEmailRequest>({
             query: (email) => ({
                 url: PATHS.checkEmail,
                 method: 'POST',
                 body: {email},
             }),
         }),
-        confirmEmail: builder.mutation<void, { email: string; code: string }>({
+        confirmEmail: builder.mutation<ConfirmEmailResponse, ConfirmEmailRequest>({
             query: (arg) => ({
                 url: PATHS.confirmEmail,
                 method: 'POST',
                 body: arg,
             }),
         }),
-        changePassword: builder.mutation<{ message: string }, ChangePasswordRequest>({
+        changePassword: builder.mutation<ChangePasswordResponse, ChangePasswordRequest>({
             query: (arg) => ({
                 url: PATHS.changePassword,
                 method: 'POST',

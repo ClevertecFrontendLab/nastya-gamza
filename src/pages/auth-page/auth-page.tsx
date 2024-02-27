@@ -6,7 +6,7 @@ import {PATHS} from '@constants/paths.ts';
 import Logo from '@public/icons/logo.svg?react';
 import styles from './auth-page.module.less';
 
-interface ActiveTab {
+type ActiveTab = {
     activeTab: 'login' | 'register';
 }
 

@@ -1,10 +1,10 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import {Button, Card, Result} from 'antd';
-import {AuthResults} from '@constants/auth-statuses.ts';
+import {AuthResults, ResultStatuses} from '@constants/auth-statuses.ts';
 import styles from './result-page.module.less'
 
 export const ResultPage = () => {
-    const {type} = useParams();
+    const {type} = useParams() as { type: ResultStatuses };
     const navigate = useNavigate();
     const {status, title, subTitle, buttonText, redirectTo, buttonTestId} = AuthResults[type];
 

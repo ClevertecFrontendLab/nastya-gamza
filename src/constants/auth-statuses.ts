@@ -1,6 +1,26 @@
 import {PATHS} from "@constants/paths.ts";
+import {ResultStatusType} from "antd/es/result";
 
-export const AuthResults = {
+export type ResultStatuses =
+    | 'success'
+    | 'error-login'
+    | 'error'
+    | 'error-user-exist'
+    | 'error-check-email-no-exist'
+    | 'error-check-email'
+    | 'error-change-password'
+    | 'success-change-password';
+
+export type AuthResultsTypes = {
+    status: ResultStatusType;
+    title: string;
+    subTitle: string;
+    buttonText: string;
+    buttonTestId: string;
+    redirectTo: string;
+};
+
+export const AuthResults: Record<ResultStatuses, AuthResultsTypes> = {
     success: {
         status: 'success',
         title: 'Регистрация успешна',

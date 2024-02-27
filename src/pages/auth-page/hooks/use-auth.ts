@@ -1,16 +1,22 @@
 import {useNavigate} from 'react-router-dom';
 import {FormInstance} from 'antd';
-import {setEmail, setToken} from '@redux/slice/auth-slice.ts';
+import {setEmail, setToken} from '@redux/slices/auth-slice.ts';
 import {useCheckEmailMutation, useLoginMutation} from '@redux/api/auth-api.ts';
 import {useAppDispatch} from "@hooks/typed-react-redux-hooks.ts";
-import {FormFields} from '@pages/auth-page/components/auth-form/auth-form.tsx';
 import {PATHS} from '@constants/paths.ts';
+
+export type FormFields = {
+    email: string;
+    password: string;
+    remember: boolean;
+}
 
 export const useAuth = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [login, {isLoading: isLoginLoading}] = useLoginMutation();
     const [checkEmail, {isLoading: isCheckEmailLoading}] = useCheckEmailMutation();
+
     const onSubmit = async (data: FormFields) => {
         try {
             await new Promise(resolve => setTimeout(resolve, 500)); // иначе 1ый тест не находит Loader

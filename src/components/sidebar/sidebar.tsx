@@ -9,7 +9,7 @@ import LogoMobile from '@public/icons/logo-mobile.svg?react';
 import ExitIcon from '@public/icons/exit.svg?react';
 import styles from './sidebar.module.less'
 import {useAppDispatch} from "@hooks/typed-react-redux-hooks.ts";
-import {logout} from "@redux/slice/auth-slice.ts";
+import {logout} from "@redux/slices/auth-slice.ts";
 import {push} from "redux-first-history";
 import {PATHS} from "@constants/paths.ts";
 
