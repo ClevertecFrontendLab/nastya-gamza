@@ -34,11 +34,10 @@ const slice = createSlice({
         setToken: (state, action: PayloadAction<{token: string}>) => {
             state.token = action.payload.token;
         },
-        setLoading: (state, action: PayloadAction<{loading: boolean}>) => {
-            state.loading = action.payload.loading;
-        },
-        setEmail: (state, action: PayloadAction<{ email: string, retryEmail: boolean }>) => {
+        setEmail: (state, action: PayloadAction<{ email: string}>) => {
             state.email = action.payload.email;
+        },
+        setRetryEmail: (state, action: PayloadAction<{ retryEmail: boolean }>) => {
             state.retryEmail = action.payload.retryEmail;
         },
         setPassword: (state, action: PayloadAction<{password: ChangePasswordRequest, retryPassword: boolean }>) => {
@@ -51,7 +50,7 @@ const slice = createSlice({
     },
 })
 
-export const {setCredentials, setToken, setLoading, setEmail, setPassword, logout} = slice.actions
+export const {setCredentials, setToken, setEmail, setRetryEmail, setPassword, logout} = slice.actions
 
 export default slice.reducer
 

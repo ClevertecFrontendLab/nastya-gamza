@@ -40,7 +40,7 @@ export const AuthResults: Record<ResultStatuses, AuthResultsTypes> = {
     'error': {
         status: 'error',
         title: 'Данные не сохранились',
-        subTitle: 'Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз',
+        subTitle: 'Что-то пошло не так и ваша регистрация не\u00A0завершилась. Попробуйте ещё раз',
         buttonText: 'Повторить',
         buttonTestId: 'registration-retry-button',
         redirectTo: PATHS.register,

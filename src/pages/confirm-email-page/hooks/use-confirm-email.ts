@@ -11,6 +11,7 @@ export const useConfirmEmail = () => {
     const {email} = useAppSelector(authSelector);
     const [confirmEmail, {isLoading, isError}] = useConfirmEmailMutation();
     const errorRef = useRef(isError);
+
     const handleComplete = async (code: string) => {
         try {
             await confirmEmail({email, code}).unwrap();
