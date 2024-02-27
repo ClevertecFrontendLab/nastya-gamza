@@ -1,5 +1,5 @@
-import {useEffect, useRef, useState} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useRef, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Card, Result} from 'antd';
 import VerificationInput from 'react-verification-input';
 import clsn from 'classnames';
@@ -12,7 +12,6 @@ import styles from './confirm-email.module.less'
 
 export const ConfirmEmail = () => {
     const navigate = useNavigate();
-    const location = useLocation();
     const [confirmEmail, {isLoading, isError}] = useConfirmEmailMutation();
     const [code, setCode] = useState('');
     const errorRef = useRef(isError);
@@ -28,19 +27,6 @@ export const ConfirmEmail = () => {
             setCode('');
         }
     };
-
-    useEffect(() => {
-        const state = location.state;
-
-        if (state?.from !== 'redirect' && localStorage.getItem('token')) {
-            navigate(PATHS.main);
-            return;
-        }
-
-        if (state?.from !== 'redirect') {
-            navigate(PATHS.auth);
-        }
-    }, []);
 
     if (isLoading) return <Loader/>;
 

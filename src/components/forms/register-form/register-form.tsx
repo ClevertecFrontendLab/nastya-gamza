@@ -12,6 +12,7 @@ import {useAppDispatch, useAppSelector} from '@hooks/typed-react-redux-hooks.ts'
 import {authSelector} from '@redux/selectors/selectors.ts';
 import {PATHS} from '@constants/paths.ts';
 import {setCredentials} from '@redux/slice/auth-slice.ts';
+import {HTTP_STATUSES} from "@constants/http-statuses.ts";
 
 const {useBreakpoint} = Grid;
 
@@ -39,7 +40,7 @@ export const RegisterForm = () => {
             navigate(PATHS.resultSuccess, {state: {from: 'redirect'}});
             dispatch(setCredentials({credentials: data, retryRegister: false}));
         } catch (e) {
-            if (e.status === 409) {
+            if (e.status === HTTP_STATUSES.conflict) {
                 navigate(PATHS.resultErrorUserExist, {state: {from: 'redirect'}});
                 return;
             }
@@ -51,7 +52,7 @@ export const RegisterForm = () => {
     useEffect(() => {
         if (retryRegister) {
             register(credentials).unwrap().catch(e => {
-                if (e.status === 409) {
+                if (e.status === HTTP_STATUSES.conflict) {
                     navigate(PATHS.resultErrorUserExist, {state: {from: 'redirect'}});
                     return;
                 }
