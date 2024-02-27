@@ -4,11 +4,11 @@ import {ProtectedRoute} from './protected-route.tsx';
 import {MainPage} from '@pages/main-page';
 import {AuthPage} from '@pages/auth-page';
 import {ResultPage} from '@pages/result-page';
-import {ConfirmEmail} from "@pages/confirm-email";
-import {ChangePassword} from "@pages/change-password";
-import {NotFoundPage} from "@pages/not-found-page";
-import {RedirectRoute} from "./redirect-route.tsx";
-import {PublicRoute} from "./public-route.tsx";
+import {ConfirmEmailPage} from '@pages/confirm-email-page';
+import {NotFoundPage} from '@pages/not-found-page';
+import {ChangePasswordPage} from "@pages/change-password-page";
+import {RedirectRoute} from './redirect-route.tsx';
+import {PublicRoute} from './public-route.tsx';
 import {PATHS} from '@constants/paths.ts';
 
 export const routes = (
@@ -23,8 +23,8 @@ export const routes = (
 
             <Route element={<RedirectRoute/>}>
                 <Route path={PATHS.result + '/:type'} element={<ResultPage/>}/>
-                <Route path={PATHS.confirmEmail} element={<ConfirmEmail/>}/>
-                <Route path={PATHS.changePassword} element={<ChangePassword/>}/>
+                <Route path={PATHS.confirmEmail} element={<ConfirmEmailPage/>}/>
+                <Route path={PATHS.changePassword} element={<ChangePasswordPage/>}/>
             </Route>
         </Route>
 

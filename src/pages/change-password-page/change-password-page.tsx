@@ -8,11 +8,11 @@ import {useAppDispatch, useAppSelector} from '@hooks/typed-react-redux-hooks.ts'
 import {isValidConfirmPassword, isValidPassword} from '@utils/validation.ts';
 import {PATHS} from '@constants/paths.ts';
 import {ChangePasswordRequest} from '@constants/auth.ts';
-import styles from './change-password.module.less'
+import styles from './change-password-page.module.less'
 
 const {Title} = Typography;
 
-export const ChangePassword = () => {
+export const ChangePasswordPage = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [changePassword] = useChangePasswordMutation();

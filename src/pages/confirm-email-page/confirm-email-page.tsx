@@ -8,9 +8,9 @@ import {authSelector} from '@redux/selectors/selectors.ts';
 import {useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
 import {Loader} from '@components/loader';
 import {PATHS} from '@constants/paths.ts';
-import styles from './confirm-email.module.less'
+import styles from './confirm-email-page.module.less'
 
-export const ConfirmEmail = () => {
+export const ConfirmEmailPage = () => {
     const navigate = useNavigate();
     const [confirmEmail, {isLoading, isError}] = useConfirmEmailMutation();
     const [code, setCode] = useState('');
